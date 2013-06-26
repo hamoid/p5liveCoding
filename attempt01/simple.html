@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <title>P5</title>
+  <script type="text/javascript" src="../processing-1.4.1.min.js"></script>
+</head>
+
+<body>
+  <canvas id="stage"></canvas>
+  <script type="text/javascript">
+    var stage = document.getElementById('stage');
+    var p = new Processing(stage);
+    p.size(500, 400);
+
+    var l = [];
+    l.push(function() { p.background(0); });
+    l.push(function() { p.line(p.width/2, p.height/2, p.random(p.width), p.random(p.height)); });
+    p.draw = function() {
+      for(var i in l) {
+        try {
+          l[i]();
+        } catch(e) {
+          l[i] = function() {};
+          console.log(e);
+          console.log("Layer " + i + " removed");
+        }
+      }
+    }
+    p.loop();
+    p.stroke(255);
+  </script>
+</body>
